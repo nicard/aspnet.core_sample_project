@@ -8,7 +8,8 @@ namespace Alura.ListaLeitura.Api.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/v1.0/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/livros")]
     public class LivrosController : ControllerBase
     {
         private readonly IRepository<Livro> _repo;
