@@ -65,6 +65,21 @@ namespace Alura.WebAPI.API
 
             services.AddApiVersioning();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Description = "Documentação API",
+                    Version = "1.0"
+                });
+                c.SwaggerDoc("v2", new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Title = "Livros API",
+                    Description = "Documentação API",
+                    Version = "1.0"
+                });
+                //c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,13 +87,18 @@ namespace Alura.WebAPI.API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();// Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api Test V1");
+                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "Api Test V2");
+                });
             }
-            
-            app.UseAuthentication();
-            
-            app.UseMvc();
 
+            app.UseAuthentication();
+
+            app.UseMvc();
         }
     }
 }
